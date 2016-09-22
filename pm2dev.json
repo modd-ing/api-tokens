@@ -1,0 +1,11 @@
+{
+ "apps": [{
+    "name": "api-tokens",
+    "script" : "src/index.js",
+    "instances": 1,
+    "exec_mode": "cluster",
+    "cwd": "/home/service/api-tokens",
+    "watch": true,
+    "ignore_watch": ["node_modules", ".git"]
+ }]
+}
