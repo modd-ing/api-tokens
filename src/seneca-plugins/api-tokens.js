@@ -1,6 +1,11 @@
 'use strict';
 
 const Promise = require( 'bluebird' );
+
+Promise.config({
+  cancellation: true
+});
+
 const _ = require( 'lodash' );
 const db = require( '../db' );
 const r = db.r;
@@ -143,7 +148,7 @@ module.exports = function () {
       type: msg.type
     };
 
-    act({
+    const promise = act({
         role: 'api',
         path: 'tokens',
         cmd: 'getTokens',
@@ -159,6 +164,8 @@ module.exports = function () {
             data: result.data
           });
 
+          promise.cancel();
+
           return;
 
         }
@@ -171,7 +178,7 @@ module.exports = function () {
         return r
           .table( 'Token' )
           .insert( token, { returnChanges: true } )
-          .run()
+          .run();
 
       })
       .then( ( result ) => {
